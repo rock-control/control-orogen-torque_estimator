@@ -71,9 +71,9 @@ void Task::updateHook()
 
     if(firstRun)
     {
+      prevIndex 		= m_status.index;
       for(int i=0; i<4; i++)
       {
-        prevIndex 		= m_status.index;
         prevDeflection[i] 	= m_status.states[i].positionExtern - m_status.states[i].position;
         prevDeflectionVel[i]	= 0; 
       }
@@ -94,27 +94,22 @@ void Task::updateHook()
              _velSmoothFactor.get()*currDefVel + 
 	    (1.0 - _velSmoothFactor.get()) * prevDeflectionVel[i];
 
-        std::cout << i << "  " << TorquesEstimated.deflectionVelocity[i]  
-                       << "  " << currDefVel
-                       << "  " << prevDeflection[i]
-                       << "  " << prevDeflectionVel[i];
-
 
 	// Calculates the stress from the model
 	TorquesEstimated.torque[i] = oHysteresis[i].getStress(DEG(TorquesEstimated.deflection[i]), DEG(TorquesEstimated.deflectionVelocity[i]));
 
-        if(TorquesEstimated.torque[0] != TorquesEstimated.torque[0] )
+        if(TorquesEstimated.torque[i] != TorquesEstimated.torque[i] )
         {
-          std::cout << "Torque estimator: NaN computed" << std::endl;
+          std::cout << "Torque estimator: NaN computed\n" << std::endl;
           firstRun = true;
           return;
         }
 
-	prevIndex 		= m_status.index;
 	prevDeflection[i] 	= TorquesEstimated.deflection[i];
 	prevDeflectionVel[i] 	= TorquesEstimated.deflectionVelocity[i];
     }
 
+    prevIndex 		= m_status.index;
     _torque_estimated.write(TorquesEstimated);
 //    TaskBase::updateHook();
 }
