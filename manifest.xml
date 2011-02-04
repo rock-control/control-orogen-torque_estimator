@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package>
+  <depend package="drivers/orogen/canbus" optional="1"/>
+  <depend package="drivers/orogen/hbridge" optional="1"/>
+
+  <depend package="asguard/hysteresis_model"/>
+  <depend package="base/orogen/types"/>
+  <depend package="tools/logger"/>
+  <depend package="orogen"/>
+  <depend package="asguard/asguard"/>
+</package>
