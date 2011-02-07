@@ -20,8 +20,7 @@ namespace torque_estimator {
 	std::vector<double> prevDeflection;
         std::vector<double> prevDeflectionVel;
 
-	std::vector<double> upperGearPlayLimit;
-	std::vector<double> lowerGearPlayLimit;
+	std::vector<double> gearPlay;
 
         base::actuators::Status  m_status;
     public:

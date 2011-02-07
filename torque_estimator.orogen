@@ -47,6 +47,18 @@ task_context "Task" do
 
     property("velSmoothFactor", "double").
         doc('The velocity smooth factor for a first order smooth')
+
+    property("gearPlayRL", "double").
+        doc('Gear Play in degrees for Rear-Left wheel')
+
+    property("gearPlayRR", "double").
+        doc('Gear Play in degrees for Rear-Right wheel')
+
+    property("gearPlayFR", "double").
+        doc('Gear Play in degrees for Front-Right wheel')
+
+    property("gearPlayFL", "double").
+        doc('Gear Play in degrees for Front-Left wheel')
 end
 =begin
 using_task_library "hbridge"
