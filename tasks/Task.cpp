@@ -11,8 +11,7 @@ Task::Task(std::string const& name, TaskCore::TaskState initial_state)
     : TaskBase(name, initial_state),
     prevDeflection(4, 0),
     prevDeflectionVel(4, 0),
-    upperGearPlayLimit(4, 0),
-    lowerGearPlayLimit(4, 0)
+    gearPlay(4, 0)
 {
     _A.set(0.0);
     _beta.set(0.0);
@@ -44,6 +43,11 @@ bool Task::startHook()
     if (! TaskBase::startHook())
 	return false;
 
+    gearPlay[0] = _gearPlayRL.get();
+    gearPlay[1] = _gearPlayRR.get();
+    gearPlay[2] = _gearPlayFR.get();
+    gearPlay[3] = _gearPlayFL.get();
+
     for(int i=0; i<4; i++)
 	oHysteresis[i].setParameters(
 		_A.get(),
@@ -54,7 +58,8 @@ bool Task::startHook()
 		_ki.get(),
 		_nu.get(),
 		_eta.get(),
-		_h.get());
+		_h.get(),
+                gearPlay[i]);
 
     _status.clear();
     firstRun = true;
@@ -93,7 +98,6 @@ void Task::updateHook()
 	TorquesEstimated.deflectionVelocity[i] = 
              _velSmoothFactor.get()*currDefVel + 
 	    (1.0 - _velSmoothFactor.get()) * prevDeflectionVel[i];
-
 
 	// Calculates the stress from the model
 	TorquesEstimated.torque[i] = oHysteresis[i].getStress(DEG(TorquesEstimated.deflection[i]), DEG(TorquesEstimated.deflectionVelocity[i]));
