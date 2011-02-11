@@ -24,6 +24,11 @@ Task::Task(std::string const& name, TaskCore::TaskState initial_state)
     _h.set(0.0);
 
     _velSmoothFactor.set(0.5);
+
+    _gearPlayRL.set(0);
+    _gearPlayRR.set(0);
+    _gearPlayFR.set(0);
+    _gearPlayFL.set(0);
 }
 
 
@@ -49,6 +54,7 @@ bool Task::startHook()
     gearPlay[3] = _gearPlayFL.get();
 
     for(int i=0; i<4; i++)
+    {
 	oHysteresis[i].setParameters(
 		_A.get(),
 		_beta.get(),
@@ -60,6 +66,8 @@ bool Task::startHook()
 		_eta.get(),
 		_h.get(),
                 gearPlay[i]);
+        oHysteresis[i].printParameters();
+    }
 
     _status.clear();
     firstRun = true;
@@ -105,6 +113,15 @@ void Task::updateHook()
         if(TorquesEstimated.torque[i] != TorquesEstimated.torque[i] )
         {
           std::cout << "Torque estimator: NaN computed\n" << std::endl;
+          std::cout 
+              << " pI:" << prevIndex 
+              << " cI:" << m_status.index 
+              << " cD:" << TorquesEstimated.deflection[i]
+              << " cDV:" << currDefVel 
+              << " pDV:" << prevDeflectionVel[i] 
+              << std::endl;
+
+          oHysteresis[i].reset();
           firstRun = true;
           return;
         }
