@@ -4,7 +4,7 @@
 #define TORQUE_ESTIMATOR_TASK_TASK_HPP
 
 #include "torque_estimator/TaskBase.hpp"
-#include "BoucWenBaberNooriModel.hpp"
+#include "BoucWenHysteresisModel.hpp"
 
 namespace torque_estimator {
     class Task : public TaskBase
@@ -12,15 +12,8 @@ namespace torque_estimator {
 	friend class TaskBase;
     protected:
 
-	hysteresis_model::BoucWenBaberNooriModel oHysteresis[4];
+	hysteresis_model::BoucWenModel oHysteresis[4];
 	torque_estimator::WheelTorques TorquesEstimated;
-        bool firstRun;
-
-	int prevIndex;
-	std::vector<double> prevDeflection;
-        std::vector<double> prevDeflectionVel;
-
-	std::vector<double> gearPlay;
 
         base::actuators::Status  m_status;
     public:
