@@ -18,64 +18,6 @@ task_context "Task" do
     output_port("torque_estimated", "torque_estimator/WheelTorques").
         doc("Estimated torque values")
 
-    property("A", "double").
-        doc('Bouc-Wen-Baber-Noori Model parameter - A')
-
-    property("beta", "double").
-        doc('Bouc-Wen-Baber-Noori Model parameter - beta')
-
-    property("gamma", "double").
-        doc('Bouc-Wen-Baber-Noori Model parameter - gamma')
-
-    property("n", "double").
-        doc('Bouc-Wen-Baber-Noori Model parameter - n')
-
-    property("a", "double").
-        doc('Bouc-Wen-Baber-Noori Model parameter - a')
-
-    property("ki", "double").
-        doc('Bouc-Wen-Baber-Noori Model parameter - ki')
-
-    property("nu", "double").
-        doc('Bouc-Wen-Baber-Noori Model parameter - nu')
-
-    property("eta", "double").
-        doc('Bouc-Wen-Baber-Noori Model parameter - eta')
-
-    property("h", "double").
-        doc('Bouc-Wen-Baber-Noori Model parameter - h')
-
-    property("velSmoothFactor", "double").
-        doc('The velocity smooth factor for a first order smooth')
-
-    property("gearPlayRL", "double").
-        doc('Gear Play in degrees for Rear-Left wheel')
-
-    property("gearPlayRR", "double").
-        doc('Gear Play in degrees for Rear-Right wheel')
-
-    property("gearPlayFR", "double").
-        doc('Gear Play in degrees for Front-Right wheel')
-
-    property("gearPlayFL", "double").
-        doc('Gear Play in degrees for Front-Left wheel')
+    property("coupling_properties", "torque_estimator/CouplingParameterSet").
+        doc('Hysteresis parameter set for all the couplings')
 end
-=begin
-using_task_library "hbridge"
-using_task_library "can"
-deployment "test_torque_estimator" do
-    can     = task('can', "can::Task").
-        realtime.
-        highest_priority.
-	periodic(0.001)
-    hbridge = task("hbridge", "hbridge::Task").
-    	realtime.
-	highest_priority.
-        triggered
-    torque_estimator = task("torque_estimator", "torque_estimator::Task").
-        realtime.
-        periodic(0.001)
-
-    add_default_logger
-end
-=end  
