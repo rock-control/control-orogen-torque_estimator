@@ -88,7 +88,7 @@ namespace torque_estimator
 
     CouplingParameterSet(int size = 4)
     {
-      param.resize(size);
+      parameters.resize(size);
     }
   };
 }
