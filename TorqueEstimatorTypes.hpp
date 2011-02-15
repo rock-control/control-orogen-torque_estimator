@@ -39,7 +39,7 @@ namespace torque_estimator
       A(0),
       beta(0),
       gamma(0),
-      n(0),
+      n(1),
       alpha(0),
       ki(0),
       gearPlay(0),
