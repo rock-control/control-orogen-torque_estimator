@@ -59,7 +59,9 @@ void Task::updateHook()
             DEG(TorquesEstimated.deflection[i]), 
             TorquesEstimated.deflectionVelocity[i],
             TorquesEstimated.torque[i]))
-          return;
+        {
+            return;
+        }
     }
 
     _torque_estimated.write(TorquesEstimated);
