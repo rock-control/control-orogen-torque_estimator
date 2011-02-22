@@ -8,15 +8,9 @@ namespace torque_estimator
 {
   struct WheelTorques {
     base::Time time;
-    std::vector<double> deflection;             // ExternalEncoder - InternalEncoder
-    std::vector<double> deflectionVelocity;
-    std::vector<double> torque;
-
-    WheelTorques(int size = 4) :
-      deflection(size,0),
-      deflectionVelocity(size,0),
-      torque(size,0)
-    { }
+    double deflection[4];             // ExternalEncoder - InternalEncoder
+    double deflectionVelocity[4];
+    double torque[4];
   };
 
   struct HysteresisParameters {
