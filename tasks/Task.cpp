@@ -41,31 +41,31 @@ bool Task::startHook()
 
 void Task::updateHook()
 {
-    TorquesEstimated.time	= base::Time::now();
+    TaskBase::updateHook();
 
-    // This is the hbridge status
-    if (_status.readNewest(m_status) != RTT::NewData)
-	return;
 
-    for(int i=0; i<4; i++)
+    while (_status.read(m_status, false) == RTT::NewData)
     {
-	// deflection = external encoder - internal encoder 
-	TorquesEstimated.deflection[i] =   m_status.states[i].positionExtern 
-                                         - m_status.states[i].position;
-
-	// Calculates the stress from the model
-	if(!oHysteresis[i].getStress(
-            m_status.index * 0.001,
-            DEG(TorquesEstimated.deflection[i]), 
-            TorquesEstimated.deflectionVelocity[i],
-            TorquesEstimated.torque[i]))
+        TorquesEstimated.time	= m_status.time;
+        for(int i=0; i<4; i++)
         {
-            return;
+            // deflection = external encoder - internal encoder 
+            TorquesEstimated.deflection[i] =   m_status.states[i].positionExtern 
+                                             - m_status.states[i].position;
+
+            // Calculates the stress from the model
+            if(!oHysteresis[i].getStress(
+                m_status.index * 0.001,
+                DEG(TorquesEstimated.deflection[i]), 
+                TorquesEstimated.deflectionVelocity[i],
+                TorquesEstimated.torque[i]))
+            {
+                return;
+            }
         }
+        _torque_estimated.write(TorquesEstimated);
     }
 
-    _torque_estimated.write(TorquesEstimated);
-//    TaskBase::updateHook();
 }
 // void Task::errorHook()
 // {
