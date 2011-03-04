@@ -20,4 +20,16 @@ task_context "Task" do
 
     property("coupling_properties", "torque_estimator/CouplingParameterSet").
         doc('Hysteresis parameter set for all the couplings')
+
+    port_driven
+end
+
+deployment "test_torque" do
+    do_not_install
+    torque_task = task("torque", "Task")
+    
+    add_default_logger
+    if !corba_enabled?
+        browse torque_task
+    end
 end
