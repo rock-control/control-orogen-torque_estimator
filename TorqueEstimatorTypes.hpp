@@ -92,6 +92,19 @@ namespace torque_estimator
       parameters.resize(size);
     }
   };
-}
 
+  struct GroundForces {
+      base::Time time;
+
+      /* Forces parallel to the ground */
+      std::vector<double> tractionForce;
+      /* Forces perpendicular to the ground */
+      std::vector<double> normalForce;
+
+      GroundForces()
+	  : tractionForce(4, 0),
+	  normalForce(4, 0)
+      {}
+  };
+}
 #endif
