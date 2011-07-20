@@ -18,6 +18,9 @@ task_context "Task" do
     output_port("torque_estimated", "torque_estimator/WheelTorques").
         doc("Estimated torque values")
 
+    output_port("ground_forces_estimated", "torque_estimator/GroundForces").
+        doc("Estimated ground force values")
+
     property("coupling_properties", "torque_estimator/CouplingParameterSet").
         doc('Hysteresis parameter set for all the couplings')
 

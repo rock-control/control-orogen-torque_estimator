@@ -47,6 +47,7 @@ void Task::updateHook()
     while (_status.read(m_status, false) == RTT::NewData)
     {
         TorquesEstimated.time	= m_status.time;
+        groundForces.time	= m_status.time;
         for(int i=0; i<4; i++)
         {
             // deflection = external encoder - internal encoder 
@@ -62,11 +63,29 @@ void Task::updateHook()
             {
                 return;
             }
+
+	    groundForces.tractionForce.at(i) = 
+		TorquesEstimated.torque[i] * 
+		config.wheelRadiusMax * 
+		cos(getLegAngleWithVertical(m_status.states[i].positionExtern));
+
+	    groundForces.normalForce.at(i) = 
+		TorquesEstimated.torque[i] * 
+		config.wheelRadiusMax * 
+		sin(getLegAngleWithVertical(m_status.states[i].positionExtern));
         }
         _torque_estimated.write(TorquesEstimated);
+	_ground_forces_estimated.write(groundForces);
     }
 
 }
+
+
+double Task::getLegAngleWithVertical(double _externalEncoderAngle)
+{
+    return (_externalEncoderAngle - round(_externalEncoderAngle / config.angleBetweenLegs) * config.angleBetweenLegs);
+}
+
 // void Task::errorHook()
 // {
 //     TaskBase::errorHook();
