@@ -48,7 +48,7 @@ void Task::updateHook()
     {
         TorquesEstimated.time	= m_status.time;
         groundForces.time	= m_status.time;
-        for(int i=0; i<4; i++)
+        for(int i=0; i<nrMotors; i++)
         {
             // deflection = external encoder - internal encoder 
             TorquesEstimated.deflection[i] =   m_status.states[i].positionExtern 
