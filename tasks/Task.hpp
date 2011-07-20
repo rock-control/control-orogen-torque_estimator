@@ -16,6 +16,7 @@ namespace torque_estimator {
 	torque_estimator::WheelTorques TorquesEstimated;
 
         base::actuators::Status  m_status;
+	int nrMotors;
     public:
         Task(std::string const& name = "torque_estimator::Task", TaskCore::TaskState initial_state = Stopped);
 
