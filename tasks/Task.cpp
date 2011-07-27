@@ -10,6 +10,8 @@ using namespace hbridge;
 Task::Task(std::string const& name, TaskCore::TaskState initial_state)
     : TaskBase(name, initial_state)
 {
+    nrMotors = 4;
+    TorquesEstimated.resize(nrMotors);
 }
 
 /// The following lines are template definitions for the various state machine
@@ -28,7 +30,7 @@ bool Task::startHook()
 	return false;
 
     std::vector<double> p;
-    for(int i=0; i<4; i++)
+    for(int i=0; i<nrMotors; i++)
     {
         _coupling_properties.get().parameters[i].toVector(p);
 	oHysteresis[i].setParameters(&p[0]);
