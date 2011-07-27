@@ -66,12 +66,12 @@ void Task::updateHook()
 
 	    groundForces.tractionForce.at(i) = 
 		TorquesEstimated.torque[i] / 
-		config.wheelRadiusMax / 
+		config.wheelRadiusMax * 
 		cos(getLegAngleWithVertical(m_status.states[i].positionExtern));
 
 	    groundForces.normalForce.at(i) = 
 		TorquesEstimated.torque[i] / 
-		config.wheelRadiusMax / 
+		config.wheelRadiusMax * 
 		sin(getLegAngleWithVertical(m_status.states[i].positionExtern));
         }
         _torque_estimated.write(TorquesEstimated);
