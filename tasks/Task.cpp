@@ -48,6 +48,7 @@ void Task::updateHook()
 
     while (_status.read(m_status, false) == RTT::NewData)
     {
+	TorquesEstimated.index  = m_status.index;
         TorquesEstimated.time	= m_status.time;
         groundForces.time	= m_status.time;
         for(int i=0; i<nrMotors; i++)
