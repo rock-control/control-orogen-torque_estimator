@@ -8,6 +8,7 @@ namespace torque_estimator
 {
   struct WheelTorques {
     base::Time time;
+    unsigned int index;
     std::vector<double> deflection;             // ExternalEncoder - InternalEncoder
     std::vector<double> deflectionVelocity;
     std::vector<double> torque;
