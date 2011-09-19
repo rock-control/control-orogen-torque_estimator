@@ -22,6 +22,10 @@ def register2DPlot ( plot, title, x_axis, y_axis )
     
 end 
 
+
+wheel_idx = 0
+
+
 logs = Array.new
 logs <<  ARGV[0] + "test_torque.0.log"
 logs <<  ARGV[0] + "lowlevel.0.log"
@@ -52,7 +56,7 @@ plot = DataPlot.new()
 plot.register1D( :torque, {:title => "Torque (N.m)", :lt =>"p pt 2"} )
 plot.register1D( :current, {:title => "Current (A)", :lt =>"p pt 1"} )
 plot.register1D( :deflection, {:title => "Deflection (rad*10)", :lt =>"p pt 3"} )
-
+ plot.setTitle("wheel "+wheel_idx.to_s+" " +ARGV[0] , "Helvetica,14")
 plot_terrain = DataPlot.new()
 register2DPlot(plot_terrain, ARGV[0],"Normal Force (N)", "Traction Force (N)") 
 
@@ -63,6 +67,8 @@ plot_key << :w2
 plot_key << :w3
 
 init_time = 0 
+
+
 log_replay.torque.ground_forces_estimated.connect_to(:type => :buffer,:size => 1000) do |data,_|
 	if init_time == 0 
 	    init_time = data.time.to_f 
@@ -83,8 +89,8 @@ log_replay.torque.torque_estimated.connect_to(:type => :buffer,:size => 1000) do
 	    plotTorque.addData(  plot_key[i], [data.time.to_f - init_time, data.torque[i]]) if data
 	end
 
-	plot.addData(  :torque, [data.time.to_f - init_time,data.torque[2]*-1.0]) if data
-	plot.addData(  :deflection, [data.time.to_f - init_time,(data.deflection[2]*-10.0)]) if data
+	plot.addData(  :torque, [data.time.to_f - init_time,data.torque[wheel_idx]*-1.0]) if data
+	plot.addData(  :deflection, [data.time.to_f - init_time,(data.deflection[wheel_idx]*-10.0)]) if data
 end
 
 log_replay.hbridge.status_motors.connect_to(:type => :buffer,:size => 1000) do |data,_|
@@ -92,7 +98,7 @@ log_replay.hbridge.status_motors.connect_to(:type => :buffer,:size => 1000) do |
 	    init_time = data.time.to_f 
 	end
 	
-	plot.addData(  :current, [data.time.to_f - init_time,(data.states[2].current/1000.0)]) if data
+	plot.addData(  :current, [data.time.to_f - init_time,(data.states[wheel_idx].current/1000.0)]) if data
 	
 	for i in 0..3 
 	    plot_current.addData(  plot_key[i], [data.time.to_f - init_time, data.states[i].current]) if data
@@ -109,4 +115,4 @@ plot.show()
 # plot_normal.show()
 # plotTorque.show()
 # plot_deflection.show()
-# plot_current.show()
+ plot_current.show()
