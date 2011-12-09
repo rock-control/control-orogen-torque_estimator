@@ -1,8 +1,8 @@
 #ifndef TORQUE_ESTIMATOR_TYPES_HPP
 #define TORQUE_ESTIMATOR_TYPES_HPP
 
-#include <HBridge.hpp>
 #include <base/time.h>
+#include <vector>
 
 namespace torque_estimator
 {

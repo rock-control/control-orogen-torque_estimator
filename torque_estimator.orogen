@@ -2,9 +2,6 @@ name "torque_estimator"
 version "0.1"
 
 import_types_from "base"
-import_types_from "hbridge"
-
-using_library "hbridge"
 using_library "hysteresis_model"
 using_library "asguard"
 

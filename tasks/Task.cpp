@@ -4,7 +4,6 @@
 #define DEG(x) (x*180.0/M_PI)
 
 using namespace torque_estimator;
-using namespace hbridge;
 
 
 Task::Task(std::string const& name, TaskCore::TaskState initial_state)
