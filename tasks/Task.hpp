@@ -4,10 +4,7 @@
 #define TORQUE_ESTIMATOR_TASK_TASK_HPP
 
 #include "torque_estimator/TaskBase.hpp"
-
 #include "BoucWenHysteresisModel.hpp"
-#include "asguard/Configuration.hpp"
-
 
 namespace torque_estimator {
     class Task : public TaskBase
@@ -18,7 +15,6 @@ namespace torque_estimator {
 	hysteresis_model::BoucWenModel oHysteresis[4];
 	torque_estimator::WheelTorques TorquesEstimated;
 	torque_estimator::GroundForces groundForces;
-	asguard::Configuration config;
 
         base::actuators::Status  m_status;
 	int nrMotors;
