@@ -68,12 +68,12 @@ void Task::updateHook()
 
 	    groundForces.tractionForce.at(i) = 
 		TorquesEstimated.torque[i] / 
-		config.wheelRadiusMax * 
+		_wheel_radius * 
 		cos(getLegAngleWithVertical(m_status.states[i].positionExtern));
 
 	    groundForces.normalForce.at(i) = 
 		TorquesEstimated.torque[i] / 
-		config.wheelRadiusMax * 
+		_wheel_radius * 
 		sin(getLegAngleWithVertical(m_status.states[i].positionExtern));
         }
         _torque_estimated.write(TorquesEstimated);
@@ -85,7 +85,7 @@ void Task::updateHook()
 
 double Task::getLegAngleWithVertical(double _externalEncoderAngle)
 {
-    return (_externalEncoderAngle - round(_externalEncoderAngle / config.angleBetweenLegs) * config.angleBetweenLegs);
+    return (_externalEncoderAngle - round(_externalEncoderAngle / _angle_between_legs) * _angle_between_legs);
 }
 
 // void Task::errorHook()

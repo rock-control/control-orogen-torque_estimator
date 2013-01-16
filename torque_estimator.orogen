@@ -3,11 +3,17 @@ version "0.1"
 
 import_types_from "base"
 using_library "hysteresis_model"
-using_library "asguard"
 
 import_types_from "TorqueEstimatorTypes.hpp"
 
 task_context "Task" do
+    doc "this task implements an estimator for torque and ground force estimation that can be used with a legged-wheel system such as DFKI's Asguard system"
+
+    property('wheel_radius', 'double').
+        doc 'the radius of the wheels'
+    property('angle_between_legs', 'double').
+        doc 'the angle between two legs of the legged wheel'
+
     input_port("status", "base/actuators/Status").
         doc("Status of all hbridges. A data connection type is recommended").
         needs_buffered_connection
@@ -24,12 +30,3 @@ task_context "Task" do
     port_driven
 end
 
-deployment "test_torque" do
-    do_not_install
-    torque_task = task("torque", "Task")
-    
-    add_default_logger
-    if !corba_enabled?
-        browse torque_task
-    end
-end
